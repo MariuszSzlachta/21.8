@@ -12,8 +12,7 @@ const Schema = mongoose.Schema;
 // zmiana referencji, koniecznie przed connect. Tutaj używamy globalnego promisa natywnego, zamiast mpromise
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://admin:admin1234@ds225492.mlab.com:25492/arnael-db-test', { useNewUrlParser: true
-});
+mongoose.connect('mongodb://admin:admin1234@ds225492.mlab.com:25492/arnael-db-test');
 
 // , {
   // useMongoClient: true
@@ -75,16 +74,13 @@ const createUser = function(user, pass) {
 }
 // FIND AND CREATE
 function userCreationHandler(user, pass) {
-  // find specific record
   return User.find({
     username: user
-  }, function (err, resc) {
-    console.log(user);
+  }, function (err, res) {
     if (err) throw err;
     if (res[0]){
       console.log('User already exist!');
     } else {
-      console.log('User does not exist!');
       const newUser = createUser(user, pass);
       newUser.save(function (err) {
         if (err) throw err;
