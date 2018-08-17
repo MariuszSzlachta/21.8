@@ -1,0 +1,35 @@
+doctype html
+html
+  head
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Virtuos
+    link(rel="stylesheet", href="../content.css", type="text/css")
+  body.app
+    h1.app__title Virtuos
+    p.app__subtitle Browse your gallery
+
+    if username
+      p.app__user Welcome: <span> #{username}! </span>
+    else
+      p.app__user Welcome: <span> unknown! </span>
+
+
+    section.gallery
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+      <img src="http://via.placeholder.com/350x200" alt="picture"> 
+
+    <a class="logout" href="/">logout

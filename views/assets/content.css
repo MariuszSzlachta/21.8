@@ -1,0 +1,64 @@
+* {
+  box-sizing: border-box;
+}
+html {
+  font-size: 62.5%;
+}
+.app {
+  font-size: 1rem;
+  margin: 0 auto;
+  font-family: 'Verdana', sans-serif;
+  font-weight: 300;
+  background: linear-gradient(45deg, #ffe100 0%,#ff0084 76%,#ff0084 76%,#ff0084 77%,#ff0084 77%,#ff0084 100%,#ff0084 100%) no-repeat;
+  background-size: cover;
+}
+
+.app__title {
+  color: #fff;
+  font-size: 6rem;
+  margin-top: 6rem;
+  margin-bottom: 0;
+  text-align: center;
+}
+.app__subtitle,
+.app__user {
+  color: #fff;
+  font-size: 3rem;
+  text-align: center;
+  
+}
+.app__user {
+  overflow: hidden;
+}
+.app__user span {
+  font-weight: bold;
+}
+
+.gallery {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+.gallery img {
+  margin: 10px;
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+  border: 1px solid rgba(255, 69, 0, 0.6);
+}
+.gallery img:hover {
+  transform: scale(1.2);
+}
+.logout {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  text-decoration: none;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  padding: 1rem 2rem;
+}
+
