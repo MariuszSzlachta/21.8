@@ -12,11 +12,12 @@ const Schema = mongoose.Schema;
 // zmiana referencji, koniecznie przed connect. Tutaj używamy globalnego promisa natywnego, zamiast mpromise
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://admin:admin1234@ds225492.mlab.com:25492/arnael-db-test', {
-  useMongoClient: true
+mongoose.connect('mongodb://admin:admin1234@ds225492.mlab.com:25492/arnael-db-test', { useNewUrlParser: true
 });
 
-
+// , {
+  // useMongoClient: true
+// }
 const userSchema = new Schema({
   name: String,
   username: {
@@ -55,6 +56,15 @@ userSchema.pre('save', function (next) {
 
 const User = mongoose.model('User', userSchema);
 
+// function findUserExistance(user) {
+//   // find specific record
+//   return User.find({
+//     username: user
+//   }, function (err, res) {
+//     if (err) throw err;
+//     console.log('User already exist! ' + res);
+//   })
+// }
 // CREATE USER FUNCTION:
 const createUser = function(user, pass) {
   return new User ({
@@ -63,6 +73,28 @@ const createUser = function(user, pass) {
     password: pass
   })
 }
+// FIND AND CREATE
+function userCreationHandler(user, pass) {
+  // find specific record
+  return User.find({
+    username: user
+  }, function (err, resc) {
+    console.log(user);
+    if (err) throw err;
+    if (res[0]){
+      console.log('User already exist!');
+    } else {
+      console.log('User does not exist!');
+      const newUser = createUser(user, pass);
+      newUser.save(function (err) {
+        if (err) throw err;
+        console.log('Użytkownik ' + newUser.name + ' zapisany pomyślnie')
+      });
+    }
+  })
+}
+
+
 
 
 // ENDPOINTS:
@@ -74,13 +106,10 @@ app.get('/', function(req, res){
 app.get('/register', function(req, res) {
   let queryUsername = req.query.username;
   let queryPassword = req.query.password;
-  // wywołanie funkcji tworzenia użytkownika w zmiennej będzie obiekt użytkownika
-  const newUser = createUser(queryUsername, queryPassword);
 
-  newUser.save(function (err) {
-    if (err) throw err;
-    console.log('Użytkownik ' + newUser.name + ' zapisany pomyślnie')
-  });
+  // najpierw sprawdź czy użytkownik istnieje
+  userCreationHandler(queryUsername, queryPassword);
+
   res.render('register', {username: req.query.username});
 });
 
