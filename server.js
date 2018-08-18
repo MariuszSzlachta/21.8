@@ -55,42 +55,19 @@ userSchema.pre('save', function (next) {
 
 const User = mongoose.model('User', userSchema);
 
-// function findUserExistance(user) {
-//   // find specific record
-//   return User.find({
-//     username: user
-//   }, function (err, res) {
-//     if (err) throw err;
-//     console.log('User already exist! ' + res);
-//   })
-// }
-// CREATE USER FUNCTION:
-const createUser = function(user, pass) {
+// DB HANDLERS
+function findUser(user, pass) {
+  return User.find({
+    username: user
+  })
+}
+
+const createUser = function(user, pass){
   return new User ({
-    name: user,
     username: user,
     password: pass
   })
 }
-// FIND AND CREATE
-function userCreationHandler(user, pass) {
-  return User.find({
-    username: user
-  }, function (err, res) {
-    if (err) throw err;
-    if (res[0]){
-      console.log('User already exist!');
-    } else {
-      const newUser = createUser(user, pass);
-      newUser.save(function (err) {
-        if (err) throw err;
-        console.log('Użytkownik ' + newUser.name + ' zapisany pomyślnie')
-      });
-    }
-  })
-}
-
-
 
 
 // ENDPOINTS:
@@ -99,14 +76,27 @@ app.get('/', function(req, res){
   res.render('site');
 });
 
-app.get('/register', function(req, res) {
-  let queryUsername = req.query.username;
-  let queryPassword = req.query.password;
+app.get('/register', function(request, response) {
+  let queryUsername = request.query.username;
+  let queryPassword = request.query.password;
+  let message = 'X';
 
-  // najpierw sprawdź czy użytkownik istnieje
-  userCreationHandler(queryUsername, queryPassword);
-
-  res.render('register', {username: req.query.username});
+  // szukam
+  findUser(queryUsername, queryPassword)
+  .then(function(res){
+    if ( res.length !== 0 ){
+      message = 'Taki użytkownik już istnieje';
+      response.render('register', {mes: message})
+    }
+    if ( res.length === 0 ) {
+      const newUser = createUser( queryUsername, queryPassword);
+      newUser.save(function(err){
+        if (err) throw err;
+        message = 'Użytkownik zarejestrowany pomyślnie';
+        response.render('register', {mes: message})
+      })
+    }
+  })
 });
 
 app.listen(3000);
@@ -115,5 +105,3 @@ app.use(function(req, res, next){
   console.log('404');
   res.status(404).send('Sorry but we couldn\'t find what you need');
 });
-
-// MONGO-DB
