@@ -15,7 +15,8 @@ const Schema = mongoose.Schema;
 // zmiana referencji, koniecznie przed connect. Tutaj używamy globalnego promisa natywnego, zamiast mpromise
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://admin:admin1234@ds225492.mlab.com:25492/arnael-db-test');
+mongoose.connect('mongodb://admin:admin1234@ds225492.mlab.com:25492/arnael-db-test', { useNewUrlParser:
+true });
 
 // , {
   // useMongoClient: true
