@@ -1,9 +1,12 @@
 // EXPRESS:
 var express = require('express');
 var app = express();
+const path = require('path');
+
 app.use(express.static('./views/assets/'));
 app.set('view engine', 'pug');
-app.set('views','./views');
+app.set('views', path.join(__dirname, 'views'));
+
 
 // MONGO + SHEMA 
 const mongoose = require('mongoose');
@@ -79,9 +82,9 @@ app.get('/', function(req, res){
 app.get('/register', function(request, response) {
   let queryUsername = request.query.username;
   let queryPassword = request.query.password;
-  let message = 'X';
+  let message = '';
 
-  // szukam
+  // szukam w bazie gostka i w zależności od tego czy znajde tworze lub nie nowego użytkownika i dostosowuje odpowiedz z serwera
   findUser(queryUsername, queryPassword)
   .then(function(res){
     if ( res.length !== 0 ){
@@ -92,7 +95,7 @@ app.get('/register', function(request, response) {
       const newUser = createUser( queryUsername, queryPassword);
       newUser.save(function(err){
         if (err) throw err;
-        message = 'Użytkownik zarejestrowany pomyślnie';
+        message = 'Użytkownik ' + newUser.username + ' zarejestrowany pomyślnie';
         response.render('register', {mes: message})
       })
     }
