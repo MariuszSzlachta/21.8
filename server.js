@@ -1,14 +1,21 @@
 // EXPRESS:
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 const path = require('path');
-
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 app.use(express.static('./views/assets/'));
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+// app.set('views', path.join(__dirname, 'views'));
+app.set('views', './views');
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(cookieParser());
+app.use(session({secret: "Your secret key"}));
 
-// MONGO + SHEMA 
+// MONGO + SHEMA
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -80,20 +87,20 @@ app.get('/', function(req, res){
   res.render('site');
 });
 
-app.get('/register', function(request, response) {
-  let queryUsername = request.query.username;
-  let queryPassword = request.query.password;
+app.post('/register', function(request, response) {
+  let username = request.body.username;
+  let password = request.body.password;
   let message = '';
 
   // szukam w bazie gostka i w zależności od tego czy znajde tworze lub nie nowego użytkownika i dostosowuje odpowiedz z serwera
-  findUser(queryUsername, queryPassword)
+  findUser(username, password)
   .then(function(res){
     if ( res.length !== 0 ){
       message = 'Taki użytkownik już istnieje';
       response.render('register', {mes: message})
     }
     if ( res.length === 0 ) {
-      const newUser = createUser( queryUsername, queryPassword);
+      const newUser = createUser( username, password );
       newUser.save(function(err){
         if (err) throw err;
         message = 'Użytkownik ' + newUser.username + ' zarejestrowany pomyślnie';

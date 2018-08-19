@@ -12,18 +12,18 @@ html
       div.panel-container
         div.panel
           h2.panel__title Register 
-          form.form(action="/register")
+          form.form(action="/register" method="POST")
             label.form__label(for="input-username") username:
-            input.form__input(type="text" id="input-username" name="username")
+            input.form__input(type="text" id="username" name="username")
             label.form__label(for="input-pass") password:
-            input.form__input(type="password" id="input-pass" name="password")
+            input.form__input(type="password" id="password" name="password")
             button.form__button(type="submit") register
 
-        div.panel
-          h2.panel__title Login
-          form.form(action="/login")
-            label.form__label(for="username") username:
-            input.form__input(type="text" id="username" name="username")
-            label.form__label(for="password") password:
-            input.form__input(type="password" id="password" name="password")
-            button.form__button(type="submit") login
+        //- div.panel
+        //-   h2.panel__title Login
+        //-   form.form(action="/login")
+        //-     label.form__label(for="username") username:
+        //-     input.form__input(type="text" id="username" name="username")
+        //-     label.form__label(for="password") password:
+        //-     input.form__input(type="password" id="password" name="password")
+        //-     button.form__button(type="submit") login
