@@ -73,6 +73,13 @@ function findUser(user, pass) {
   })
 }
 
+function checkLogin(user, pass){
+  return User.find({
+    username: user,
+    password: pass
+  })
+}
+
 const createUser = function(user, pass){
   return new User ({
     username: user,
@@ -80,16 +87,31 @@ const createUser = function(user, pass){
   })
 }
 
+// Session methods
+
+function sessionChecker(request, response, next){
+  if (request.session.user){
+    next();
+  } else {
+    const err = new Error('Nie jesteś zalogowany')
+    response.send('Nie jesteś zalogowany')
+    next()
+  }
+}
+
 
 // ENDPOINTS:
 
-app.get('/', function(req, res){
-  res.render('site');
+app.get('/', function(request, response){
+  console.log("SESJA:");
+  console.log(request.session.user);
+  response.render('site')
 });
 
+// REJESTRACJA
 app.post('/register', function(request, response) {
-  let username = request.body.username;
-  let password = request.body.password;
+  const username = request.body.username;
+  const password = request.body.password;
   let message = '';
 
   // szukam w bazie gostka i w zależności od tego czy znajde tworze lub nie nowego użytkownika i dostosowuje odpowiedz z serwera
@@ -109,6 +131,40 @@ app.post('/register', function(request, response) {
     }
   })
 });
+
+// LOGOWANIE
+app.post('/login', function(request, response){
+  const username = request.body.username;
+  const password = request.body.password;
+
+  checkLogin(username, password)
+  .then(function(res){
+    if (res.length !== 0){
+      request.session.user = {
+        username,
+        password
+      }
+      response.redirect('content')
+    }
+    if(res.length === 0){
+      let message = 'Nieprawidłowe dane logowania';
+      response.redirect('/');
+    }
+  })
+});
+
+// WYLOGOWYWANIE
+app.get('/logout', function(request, response){
+  request.session.destroy(function(){
+    console.log('session destroyed, user logged out')
+  });
+  response.redirect('/')
+})
+
+app.get('/content', sessionChecker ,function(request, response){
+  response.render('content', { username: request.session.user.username });
+})
+
 
 app.listen(3000);
 

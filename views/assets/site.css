@@ -91,7 +91,7 @@ html {
   margin-bottom: 3rem;
   font-size: 3rem;
 }
-.form__button {
+.form__button, .link {
   width: 30%;
   height: 5rem;
   background: #ff0084;
@@ -102,7 +102,7 @@ html {
   margin-top: 2rem;
   padding: 0;
 }
- 
+
 @media (max-width: 1200px) {
   .panel__title {
     margin: 1rem;

@@ -9,6 +9,7 @@ html
     div.container
       h1.app__title Virtuos
       p.app__subtitle Show your photos to the entire world!
+      p #{message}
       div.panel-container
         div.panel
           h2.panel__title Register 
@@ -19,11 +20,11 @@ html
             input.form__input(type="password" id="password" name="password")
             button.form__button(type="submit") register
 
-        //- div.panel
-        //-   h2.panel__title Login
-        //-   form.form(action="/login")
-        //-     label.form__label(for="username") username:
-        //-     input.form__input(type="text" id="username" name="username")
-        //-     label.form__label(for="password") password:
-        //-     input.form__input(type="password" id="password" name="password")
-        //-     button.form__button(type="submit") login
+        div.panel
+          h2.panel__title Login
+          form.form(action="/login" method="POST")
+            label.form__label(for="username") username:
+            input.form__input(type="text" id="user" name="username")
+            label.form__label(for="password") password:
+            input.form__input(type="password" id="pass" name="password")
+            button.form__button(type="submit") login
