@@ -8,7 +8,7 @@ This is my attempt to create simple app that allows to register user into databa
 ## Technologies
 
 - HTML
-- SCSS
+- CSS
 - React
 - Redux
 - MongoDB
