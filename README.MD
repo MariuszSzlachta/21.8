@@ -9,8 +9,7 @@ This is my attempt to create simple app that allows to register user into databa
 
 - HTML
 - CSS
-- React
-- Redux
+- Express.js
 - MongoDB
 
 ## How to run
